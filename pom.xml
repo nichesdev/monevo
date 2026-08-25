@@ -24,7 +24,6 @@
     <modules>
         <module>monevo-wallet</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
