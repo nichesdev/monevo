@@ -1,3 +1,22 @@
 spring:
   application:
     name: userAuth
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: app
+        format_sql: true
+
+jwt:
+  expiration: ${JWT_EXPIRATION}
+  key: ${JWT_KEY}
