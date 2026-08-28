@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "market")
@@ -16,9 +17,11 @@ public class MarketEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
+    private String coinCode;
     private String code;
     private String codein;
     private String name;
-    private String high;
-    private String low;
+    private String bid;
+    private String ask;
+    private LocalDateTime coinConsultation;
 }

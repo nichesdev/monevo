@@ -15,9 +15,9 @@ public class MarketController {
         this.marketDataService = marketDataService;
     }
 
-    @GetMapping("teste/{coin}")
+    @GetMapping("/{coin}")
     public MarketDto consultaMoeda(@PathVariable("coin") String coin){
-        return marketDataService.processarCotacao(coin);
+        return marketDataService.buscarCotacaoNoCache(coin);
     }
 
 }
