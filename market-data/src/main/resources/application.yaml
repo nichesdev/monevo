@@ -23,6 +23,11 @@ spring:
     redis:
       host: localhost
       port: 6379
+      timeout: 500ms
+      connect-timeout: 500ms
+      client-type: lettuce
+      lettuce:
+        shutdown-timeout: 100ms
 
   market:
     coins: USD-BRL,CAD-BRL,EUR-BRL,GBP-BRL,BTC-BRL,ETH-BRL

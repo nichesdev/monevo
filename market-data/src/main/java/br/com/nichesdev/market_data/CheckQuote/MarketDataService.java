@@ -12,6 +12,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class MarketDataService {
@@ -27,7 +28,6 @@ public class MarketDataService {
     }
 
     @Scheduled(fixedRate = 60000)
-    @Transactional
     public void processarCotacao() {
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://economia.awesomeapi.com.br/json/last/" + moedasConfiguradas;
@@ -45,6 +45,9 @@ public class MarketDataService {
                     String coinCodeExtraido = entry.getKey();
                     MarketDto marketDto = entry.getValue();
 
+                    marketDto.setCoinCode(coinCodeExtraido);
+                    marketDto.setCoinConsultation(LocalDateTime.now());
+
                     MarketEntity coinEntity = new MarketEntity();
                     coinEntity.setCoinCode(coinCodeExtraido);
                     coinEntity.setCode(marketDto.getCode());
@@ -55,10 +58,12 @@ public class MarketDataService {
                     coinEntity.setCoinConsultation(LocalDateTime.now());
 
                     marketRepository.save(coinEntity);
-
+                try {
                     String dtoEmJson = mapper.writeValueAsString(marketDto);
                     String redisKey = "cotacao:" + coinCodeExtraido;
                     redisTemplate.opsForValue().set(redisKey, dtoEmJson, Duration.ofMinutes(15));
+                }catch(Exception e) {
+                System.err.println("falha ao salvar no Redis " + coinCodeExtraido + ": " + e.getMessage());}
                 }
                 System.out.println("Cotações sincronizadas no Postgres e Redis com sucesso.");
             }
@@ -68,15 +73,36 @@ public class MarketDataService {
     }
 
     public MarketDto buscarCotacaoNoCache(String coin) {
-        String redisKey = "cotacao:" + coin.replace("-", "").toUpperCase();
-        String resultadoRedis = redisTemplate.opsForValue().get(redisKey);
-        if (resultadoRedis != null) {
-            try {
+        String coinFormatada = coin.replace("-", "").toUpperCase();
+        String redisKey = "cotacao:" + coinFormatada;
+        try {
+            String resultadoRedis = redisTemplate.opsForValue().get(redisKey);
+            if (resultadoRedis != null) {
                 ObjectMapper mapper = new ObjectMapper();
-                return mapper.readValue(resultadoRedis.toString(), MarketDto.class);
-            } catch (Exception e) {
-                System.err.println("Erro ao converter do cache: " + e.getMessage());
+                return mapper.readValue(resultadoRedis, MarketDto.class);
             }
+        } catch (Exception e) {
+            System.err.println("Redis indisponível ou falhou na leitura: " + e.getMessage());
+        }
+
+        try {
+            Optional<MarketEntity> optionalEntity = marketRepository
+                    .findFirstByCoinCodeOrderByCoinConsultationDesc(coinFormatada);
+
+            if (optionalEntity.isPresent()) {
+                MarketEntity entity = optionalEntity.get();
+                return MarketDto.builder()
+                        .coinCode(entity.getCoinCode())
+                        .code(entity.getCode())
+                        .codein(entity.getCodein())
+                        .name(entity.getName())
+                        .bid(entity.getBid())
+                        .ask(entity.getAsk())
+                        .coinConsultation(entity.getCoinConsultation())
+                        .build();
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao consultar banco no fallback: " + e.getMessage());
         }
         return null;
     }
