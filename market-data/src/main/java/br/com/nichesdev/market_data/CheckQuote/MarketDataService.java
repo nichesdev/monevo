@@ -57,7 +57,6 @@ public class MarketDataService {
                     marketRepository.save(coinEntity);
 
                     String dtoEmJson = mapper.writeValueAsString(marketDto);
-                    System.out.println("Salvando no Redis: " + dtoEmJson);
                     String redisKey = "cotacao:" + coinCodeExtraido;
                     redisTemplate.opsForValue().set(redisKey, dtoEmJson, Duration.ofMinutes(15));
                 }
@@ -71,7 +70,6 @@ public class MarketDataService {
     public MarketDto buscarCotacaoNoCache(String coin) {
         String redisKey = "cotacao:" + coin.replace("-", "").toUpperCase();
         String resultadoRedis = redisTemplate.opsForValue().get(redisKey);
-        System.out.println(resultadoRedis);
         if (resultadoRedis != null) {
             try {
                 ObjectMapper mapper = new ObjectMapper();
