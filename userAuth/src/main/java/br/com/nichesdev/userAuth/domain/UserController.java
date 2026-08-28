@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("monevo/auth")
+@RequestMapping("/monevo/auth")
 @RequiredArgsConstructor
 @Validated
 public class UserController {
