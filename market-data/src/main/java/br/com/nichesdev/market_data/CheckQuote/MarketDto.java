@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoinDto {
+public class MarketDto {
 
     private String code;
     private String codein;

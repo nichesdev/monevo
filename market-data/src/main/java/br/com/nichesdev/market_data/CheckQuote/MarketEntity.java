@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @Builder
-public class CoinEntity implements Serializable {
+public class MarketEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
