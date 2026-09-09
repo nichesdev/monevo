@@ -2,11 +2,8 @@ package br.com.nichesdev.monevo_wallet.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.UUID;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "wallet")
@@ -18,13 +15,12 @@ import java.time.LocalDateTime;
 public class WalletEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long walletId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID walletId;
 
-    private String accountNumber;
+    @Column(nullable = false, unique = true)
+    private Long userId;
 
+    @Column(nullable = false, precision = 19, scale = 8)
     private BigDecimal balance;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 }
