@@ -1,3 +1,35 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: monevo-wallet
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wallet_monevo
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: wallet_consumer_group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        "[spring.deserializer.key.delegate.class]": org.apache.kafka.common.serialization.StringDeserializer
+        "[spring.deserializer.value.delegate.class]": org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+        "[spring.json.use.type.headers]": false
+        "[spring.json.value.default.type]": br.com.nichesdev.monevo_wallet.domain.dto.UserCreatedEvent
+        "[spring.json.trusted.packages]": br.com.nichesdev.monevo_wallet.domain.dto

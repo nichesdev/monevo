@@ -2,8 +2,8 @@ package br.com.nichesdev.monevo_wallet.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.UUID;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "wallet")
@@ -18,7 +18,7 @@ public class WalletEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID walletId;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
     private Long userId;
 
     @Column(nullable = false, precision = 19, scale = 8)

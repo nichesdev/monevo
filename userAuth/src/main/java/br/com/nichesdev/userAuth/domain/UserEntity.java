@@ -20,7 +20,7 @@ import java.util.Set;
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
