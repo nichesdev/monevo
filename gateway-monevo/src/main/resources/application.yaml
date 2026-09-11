@@ -14,6 +14,6 @@ spring:
         webmvc:
           routes:
             - id: user_auth
-              uri: http://localhost:8080
+              uri: ${USER_AUTH_URL:http://localhost:8080}
               predicates:
                 - Path=/monevo/auth/**
