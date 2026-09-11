@@ -1,4 +1,4 @@
-package br.com.nichesdev.monevo_wallet.domain.dto;
+package br.com.nichesdev.monevo_wallet.domain.service;
 
 
 import br.com.nichesdev.monevo_wallet.domain.model.WalletEntity;

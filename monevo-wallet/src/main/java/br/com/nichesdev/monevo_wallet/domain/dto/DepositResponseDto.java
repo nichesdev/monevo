@@ -1,4 +1,4 @@
 package br.com.nichesdev.monevo_wallet.domain.dto;
 
-public class DepositRequest {
+public class DepositResponseDto {
 }
