@@ -33,3 +33,6 @@ spring:
         "[spring.json.use.type.headers]": false
         "[spring.json.value.default.type]": br.com.nichesdev.monevo_wallet.domain.dto.UserCreatedEvent
         "[spring.json.trusted.packages]": br.com.nichesdev.monevo_wallet.domain.dto
+
+jwt:
+  key: ${JWT_KEY}

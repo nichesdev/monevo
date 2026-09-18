@@ -1,15 +1,16 @@
 package br.com.nichesdev.userAuth.config;
 
 
+import br.com.nichesdev.userAuth.domain.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
@@ -22,19 +23,21 @@ public class TokenProvider {
 
     //Gerar Token
     public String gerarToken (Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return buildToken(userDetails.getUsername());
+        UserEntity user = (UserEntity) authentication.getPrincipal();
+
+        return buildToken(user.getEmail(), user.getId());
     }
 
-    public String buildToken(String username) {
+    public String buildToken(String email, Long userId) {
         Date now = new Date();
         Date expirationDate = new Date(now.getTime() + expirationTime);
 
         return Jwts.builder()
-                .subject(username)
+                .subject(email)
+                .claim("userId", userId)
                 .issuedAt(now)
                 .expiration(expirationDate)
-                .signWith(getSigninKey())
+                .signWith(getSigninKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
@@ -60,6 +63,6 @@ public class TokenProvider {
                 .getPayload();
     }
     private SecretKey getSigninKey(){
-        return Keys.hmacShaKeyFor(key.getBytes());
+        return Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
     }
 }
