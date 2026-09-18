@@ -56,6 +56,7 @@ services:
       - "9090:9090"
     environment:
       USER_AUTH_URL: http://user-auth:8080
+      WALLET_URL: http://wallet:8082
     depends_on:
       - user-auth
       - market-data
@@ -107,6 +108,7 @@ services:
       SPRING_DATASOURCE_USERNAME: niches
       SPRING_DATASOURCE_PASSWORD: "1969"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      JWT_KEY: ${JWT_KEY}
     depends_on:
       db:
         condition: service_healthy

@@ -17,3 +17,8 @@ spring:
               uri: ${USER_AUTH_URL:http://localhost:8080}
               predicates:
                 - Path=/monevo/auth/**
+
+            - id: wallet
+              uri: ${WALLET_URL:http://localhost:8082}
+              predicates:
+                - Path=/monevo/wallet/**

@@ -57,6 +57,7 @@ public class WalletService {
         );
     }
 
+    @Transactional
     public DepositResponseDto deposit(Long userId, DepositRequestDto request){
         validateUserId(userId);
         BigDecimal amount = validateAmount(request);

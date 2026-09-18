@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .build();
 
         OAuth2TokenValidator<Jwt> identityValidator = jwt -> {
-            Object id = jwt.getClaims().get("id");
+            Object id = jwt.getClaims().get("userId");
 
             try {
                 long userId = Long.parseLong(String.valueOf(id));
