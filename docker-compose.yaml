@@ -57,6 +57,7 @@ services:
     environment:
       USER_AUTH_URL: http://user-auth:8080
       WALLET_URL: http://wallet:8082
+      MARKET_DATA_URL: http://market-data:8081
     depends_on:
       - user-auth
       - market-data

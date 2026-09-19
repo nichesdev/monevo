@@ -22,3 +22,8 @@ spring:
               uri: ${WALLET_URL:http://localhost:8082}
               predicates:
                 - Path=/monevo/wallet/**
+
+            - id: market_data
+              uri: ${MARKET_DATA_URL:http://localhost:8081}
+              predicates:
+                - Path=/consulta-cotacao/**
