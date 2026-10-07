@@ -34,5 +34,9 @@ spring:
         "[spring.json.value.default.type]": br.com.nichesdev.monevo_wallet.domain.dto.UserCreatedEvent
         "[spring.json.trusted.packages]": br.com.nichesdev.monevo_wallet.domain.dto
 
+internal:
+  trading:
+    password: ${TRADING_SERVICE_PASSWORD}
+
 jwt:
   key: ${JWT_KEY}

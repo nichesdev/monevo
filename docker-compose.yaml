@@ -110,6 +110,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: "1969"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_KEY: ${JWT_KEY}
+      TRADING_SERVICE_PASSWORD: ${TRADING_SERVICE_PASSWORD}
     depends_on:
       db:
         condition: service_healthy

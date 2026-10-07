@@ -18,6 +18,11 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -27,6 +32,7 @@ public class SecurityConfig {
 
 
     @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -82,5 +88,38 @@ public class SecurityConfig {
                 )
         );
         return decoder;
+    }
+    @Bean
+    public UserDetailsService internalUsers(
+            @Value("${internal.trading.password}") String password
+    ) {
+        if (password.isBlank()) {
+            throw new IllegalArgumentException(
+                    "TRADING_SERVICE_PASSWORD não pode estar vazio"
+            );
+        }
+        return new InMemoryUserDetailsManager(
+                User.withUsername("trading")
+                        .password(
+                                "{bcrypt}" + new BCryptPasswordEncoder().encode(password)
+                        )
+                        .roles("TRADING_SERVICE")
+                        .build()
+        );
+    }
+    @Bean
+    @Order(1)
+    public SecurityFilterChain internalSecurityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
+        return http
+                .securityMatcher("/internal/**")
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().hasRole("TRADING_SERVICE"))
+                .httpBasic(Customizer.withDefaults())
+                .build();
     }
 }
