@@ -1,4 +1,4 @@
-![Banner Monevo](<monevo banner.svg>)
+![Banner Monevo](<monevo_banner_white.svg>)
 
 # Monevo
 
