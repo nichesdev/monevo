@@ -4,7 +4,12 @@
   <img alt="Monevo — carteira digital e negociação simulada de moedas" src="./monevo_dark.svg">
 </picture>
 
-# Monevo
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=java,spring,postgres,redis,kafka,docker,postman" />
+  </a>
+</p>
+
 
 **Carteira digital e negociação simulada de moedas com Java e Spring Boot.**
 
@@ -203,7 +208,6 @@ Fluxo de teste: **cadastro → login → depósito → consulta da carteira → 
 
 - **Resultados:** cálculo de custo médio e lucro/prejuízo das vendas.
 - **Analytics:** visualização do histórico e dos resultados em dashboards do Grafana.
-- **Recuperação de operações:** reconciliação de negociações cujo resultado ficou sem confirmação.
 
 ## Objetivo do projeto
 
