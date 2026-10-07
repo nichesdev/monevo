@@ -1,4 +1,8 @@
-![Banner Monevo](<monevo_banner_white.svg>)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./monevo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./monevo_white.svg">
+  <img alt="Monevo — carteira digital e negociação simulada de moedas" src="./monevo_dark.svg">
+</picture>
 
 # Monevo
 
