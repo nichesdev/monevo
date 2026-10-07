@@ -66,7 +66,6 @@ public class SecurityConfig {
             Object claim = jwt.getClaims().get("userId");
             try {
                 long userId = Long.parseLong(String.valueOf(claim));
-
                 if (userId > 0
                         && jwt.getExpiresAt() != null
                         && jwt.getSubject() != null
@@ -75,7 +74,6 @@ public class SecurityConfig {
                     return OAuth2TokenValidatorResult.success();
                 }
             } catch (NumberFormatException ignored) {
-                // Claim ausente ou inválida.
             }
             return OAuth2TokenValidatorResult.failure(
                     new OAuth2Error(

@@ -61,7 +61,6 @@ public class MarketDataClient {
             );
         }
         validateQuote(coin, quote);
-
         return quote;
     }
 

@@ -82,8 +82,7 @@ public class TradingService {
         return tradeRepository
                 .findAllByUserIdOrderByCreatedAtDesc(
                         userId,
-                        PageRequest.of(page, size)
-                )
+                        PageRequest.of(page, size))
                 .map(this::toResponse);
     }
 
@@ -208,8 +207,6 @@ public class TradingService {
             );
         }
 
-        // Este bloco fica fora do catch da chamada HTTP:
-        // a Wallet já confirmou a movimentação.
         TradeEntity completed;
 
         try {
@@ -244,7 +241,6 @@ public class TradingService {
                                             "Negociação não encontrada: "
                                                     + tradeId
                                     ));
-
                     trade.setStatus(newStatus);
                     trade.setFailureReason(
                             reason == null
@@ -254,7 +250,6 @@ public class TradingService {
                                     Math.min(reason.length(), 500)
                             )
                     );
-
                     return tradeRepository.saveAndFlush(trade);
                 })
         );

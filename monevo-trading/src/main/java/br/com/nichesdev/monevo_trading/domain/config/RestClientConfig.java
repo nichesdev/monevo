@@ -21,11 +21,8 @@ public class RestClientConfig {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .build();
-
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
-
         requestFactory.setReadTimeout(Duration.ofSeconds(5));
-
         return builder
                 .baseUrl(baseUrl)
                 .requestFactory(requestFactory)
@@ -42,11 +39,8 @@ public class RestClientConfig {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .build();
-
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
-
         requestFactory.setReadTimeout(Duration.ofSeconds(5));
-
         return builder
                 .baseUrl(baseUrl)
                 .requestFactory(requestFactory)

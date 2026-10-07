@@ -38,7 +38,6 @@ public class WalletController {
 
     private Long getUserId(Jwt jwt) {
         Object userId = jwt.getClaims().get("userId");
-
         return Long.parseLong(String.valueOf(userId));
     }
 
