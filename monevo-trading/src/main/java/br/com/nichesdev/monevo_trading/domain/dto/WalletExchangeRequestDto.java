@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record WalletExchangeRequestDto (
         UUID operationId,
-        Long UserId,
+        Long userId,
         TradeType type,
         String coin,
         BigDecimal quantity,

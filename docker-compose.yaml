@@ -58,6 +58,7 @@ services:
       USER_AUTH_URL: http://user-auth:8080
       WALLET_URL: http://wallet:8082
       MARKET_DATA_URL: http://market-data:8081
+      TRADING_URL: http://trading:8083
     depends_on:
       - user-auth
       - market-data
@@ -114,6 +115,28 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  trading:
+    build:
+      context: ./monevo-trading
+    container_name: trading_api
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/trading_monevo
+      SPRING_DATASOURCE_USERNAME: niches
+      SPRING_DATASOURCE_PASSWORD: "1969"
+      JWT_KEY: ${JWT_KEY}
+      TRADING_SERVICE_PASSWORD: ${TRADING_SERVICE_PASSWORD}
+      MARKET_DATA_URL: http://market-data:8081
+      WALLET_URL: http://wallet:8082
+    depends_on:
+      db:
+        condition: service_healthy
+      wallet:
+        condition: service_started
+      market-data:
+        condition: service_started
 
 volumes:
   postgres_data:

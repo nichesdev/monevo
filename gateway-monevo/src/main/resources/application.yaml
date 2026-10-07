@@ -27,3 +27,8 @@ spring:
               uri: ${MARKET_DATA_URL:http://localhost:8081}
               predicates:
                 - Path=/consulta-cotacao/**
+
+            - id: trading
+              uri: ${TRADING_URL:http://localhost:8083}
+              predicates:
+                - Path=/monevo/trading/**
