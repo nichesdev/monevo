@@ -1,4 +1,8 @@
 package br.com.nichesdev.monevo_trading.domain.model;
 
-public class TradeStatus {
+public enum TradeStatus {
+    PENDING,
+    COMPLETED,
+    FAILED,
+    UNKNOWN
 }
