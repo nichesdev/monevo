@@ -87,7 +87,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/teste
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/market_monevo
       SPRING_DATASOURCE_USERNAME: niches
       SPRING_DATASOURCE_PASSWORD: "1969"
       SPRING_REDIS_HOST: redis

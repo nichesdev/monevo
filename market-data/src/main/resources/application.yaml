@@ -6,7 +6,7 @@ spring:
     name: market-data
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/teste
+    url: jdbc:postgresql://localhost:5432/market_monevo
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
