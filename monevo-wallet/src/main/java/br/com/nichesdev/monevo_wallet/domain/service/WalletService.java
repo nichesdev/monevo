@@ -1,11 +1,10 @@
 package br.com.nichesdev.monevo_wallet.domain.service;
 
 
-import br.com.nichesdev.monevo_wallet.domain.dto.DepositRequestDto;
-import br.com.nichesdev.monevo_wallet.domain.dto.DepositResponseDto;
-import br.com.nichesdev.monevo_wallet.domain.dto.WalletBalanceResponseDto;
+import br.com.nichesdev.monevo_wallet.domain.dto.*;
 import br.com.nichesdev.monevo_wallet.domain.model.WalletDeposityEntity;
 import br.com.nichesdev.monevo_wallet.domain.model.WalletEntity;
+import br.com.nichesdev.monevo_wallet.domain.repository.WalletAssetRepository;
 import br.com.nichesdev.monevo_wallet.domain.repository.WalletDepositRepository;
 import br.com.nichesdev.monevo_wallet.domain.repository.WalletRepository;
 import jakarta.persistence.EntityManager;
@@ -19,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +29,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final WalletDepositRepository depositRepository;
     private final EntityManager entityManager;
+    private final WalletAssetRepository assetRepository;
 
     @Transactional
     public void createWallet(Long userId) {
@@ -140,5 +141,27 @@ public class WalletService {
                     "Use no máximo duas casas decimais"
             );
         }
+    }
+
+    @Transactional(readOnly = true)
+    public WalletPortfolioResponseDto getPortfolio(Long userId) {
+        validateUserId(userId);
+
+        WalletEntity wallet = findWallet(userId);
+
+        List<WalletAssetResponseDto> assets = assetRepository
+                .findAllByWallet_WalletIdOrderByCoinAsc(wallet.getWalletId())
+                .stream()
+                .map(asset -> new WalletAssetResponseDto(
+                        asset.getCoin(),
+                        asset.getQuantity()
+                ))
+                .toList();
+
+        return new WalletPortfolioResponseDto(
+                wallet.getWalletId(),
+                wallet.getBalance(),
+                assets
+        );
     }
 }

@@ -1,3 +1,20 @@
+server:
+  port: 8083
+
 spring:
   application:
     name: monevo-trading
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trading_monevo
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

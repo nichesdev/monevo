@@ -3,6 +3,7 @@ package br.com.nichesdev.monevo_wallet.domain.controller;
 import br.com.nichesdev.monevo_wallet.domain.dto.DepositRequestDto;
 import br.com.nichesdev.monevo_wallet.domain.dto.DepositResponseDto;
 import br.com.nichesdev.monevo_wallet.domain.dto.WalletBalanceResponseDto;
+import br.com.nichesdev.monevo_wallet.domain.dto.WalletPortfolioResponseDto;
 import br.com.nichesdev.monevo_wallet.domain.service.WalletService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +40,10 @@ public class WalletController {
         Object userId = jwt.getClaims().get("userId");
 
         return Long.parseLong(String.valueOf(userId));
+    }
+
+    @GetMapping("/portfolio")
+    public WalletPortfolioResponseDto getPortfolio(@AuthenticationPrincipal Jwt jwt) {
+        return  walletService.getPortfolio(getUserId(jwt));
     }
 }
