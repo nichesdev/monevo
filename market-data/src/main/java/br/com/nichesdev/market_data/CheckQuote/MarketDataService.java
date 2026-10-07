@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
@@ -13,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
+import java.time.ZoneOffset;
 
 @Service
 public class MarketDataService {
@@ -46,7 +46,7 @@ public class MarketDataService {
                     MarketDto marketDto = entry.getValue();
 
                     marketDto.setCoinCode(coinCodeExtraido);
-                    marketDto.setCoinConsultation(LocalDateTime.now());
+                    marketDto.setCoinConsultation(LocalDateTime.now(ZoneOffset.UTC));
 
                     MarketEntity coinEntity = new MarketEntity();
                     coinEntity.setCoinCode(coinCodeExtraido);
@@ -55,7 +55,7 @@ public class MarketDataService {
                     coinEntity.setName(marketDto.getName());
                     coinEntity.setBid(marketDto.getBid());
                     coinEntity.setAsk(marketDto.getAsk());
-                    coinEntity.setCoinConsultation(LocalDateTime.now());
+                    coinEntity.setCoinConsultation(LocalDateTime.now(ZoneOffset.UTC));
 
                     marketRepository.save(coinEntity);
                 try {

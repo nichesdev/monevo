@@ -18,3 +18,15 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+services:
+  market-data:
+    url: ${MARKET_DATA_URL:http://localhost:8081}
+
+  wallet:
+    url: ${WALLET_URL:http://localhost:8082}
+    username: trading
+    password: ${TRADING_SERVICE_PASSWORD}
+
+jwt:
+  key: ${JWT_KEY}

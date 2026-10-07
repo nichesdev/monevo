@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface TradeRepository extends JpaRepository<TradeEntity, UUID> {
 
-    Page<TradeEntity> findAllByOrderByCreatedAtDesc(Long userId, Pageable pageable);
+    Page<TradeEntity> findAllByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
-    Optional<TradeEntity> findByTradeIdAndUserId(UUID tradeId, UUID userId);
+    Optional<TradeEntity> findByTradeIdAndUserId(UUID tradeId, Long userId);
 }
