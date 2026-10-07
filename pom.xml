@@ -28,6 +28,7 @@
         <module>userAuth</module>
         <module>gateway-monevo</module>
         <module>monevo-wallet</module>
+        <module>monevo-trading</module>
     </modules>
 
     <dependencyManagement>
